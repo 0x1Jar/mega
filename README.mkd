@@ -57,10 +57,10 @@ https://example.com
 http://example.net
 ```
 
-`meg` will request each _path_ for every _host_:
+`mega` will request each _path_ for every _host_:
 
 ```
-▶ meg --verbose paths hosts
+▶ mega --verbose paths hosts
 out/example.com/45ed6f717d44385c5e9c539b0ad8dc71771780e0 http://example.com/robots.txt (404 Not Found)
 out/example.com/61ac5fbb9d3dd054006ae82630b045ba730d8618 https://example.com/robots.txt (404 Not Found)
 out/example.net/1432c16b671043271eab84111242b1fe2a28eb98 http://example.net/robots.txt (404 Not Found)
@@ -94,11 +94,11 @@ http://example.com/robots.txt
 <head>
 ```
 
-Without any arguments, meg will read paths from a file called `./paths`,
+Without any arguments, mega will read paths from a file called `./paths`,
 and hosts from a file called `./hosts`. There will also be no output:
 
 ```
-▶ meg
+▶ mega
 ▶
 ```
 
@@ -122,19 +122,19 @@ out/example.com/bd8d9f4c470ffa0e6ec8cfa8ba1c51d62289b6dd:16:< Server: ECS (lga/1
 If you want to request just one path, you can specify it directly as an argument:
 
 ```
-▶ meg /admin.php
+▶ mega /admin.php
 ```
 
 ## Detailed Usage
 
-meg's help output tries to actually be helpful:
+mega's help output tries to actually be helpful:
 
 ```
-▶ meg --help
+▶ mega --help
 Request many paths for many hosts
 
 Usage:
-  meg [options] [path|pathsFile] [hostsFile] [outputDir]
+  mega [options] [path|pathsFile] [hostsFile] [outputDir]
 
 Options:
   -c, --concurrency <val>    Set the concurrency level (defaut: 20)
@@ -161,10 +161,10 @@ Hosts file format:
   https://example.net
 
 Examples:
-  meg /robots.txt
-  meg -s 200 -X HEAD
-  meg -c 30 /
-  meg hosts.txt paths.txt output
+  mega /robots.txt
+  mega -s 200 -X HEAD
+  mega -c 30 /
+  mega hosts.txt paths.txt output
 ```
 
 ### Concurrency
@@ -197,7 +197,7 @@ You can set additional headers on the requests with the `-H` or `--header`
 option:
 
 ```
-▶ meg --header "Origin: https://evil.com"
+▶ mega --header "Origin: https://evil.com"
 ▶ grep -h '^>' out/example.com/*
 > GET /.well-known/security.txt HTTP/1.1
 > Origin: https://evil.com
@@ -211,7 +211,7 @@ If you want to send requests that aren't valid - for example with invalid URL en
 the Go HTTP client will fail:
 
 ```
-▶ meg /%%0a0afoo:bar
+▶ mega /%%0a0afoo:bar
 request failed: parse https://example.org/%%0a0afoo:bar: invalid URL escape "%%0"
 ```
 
@@ -219,7 +219,7 @@ You can use the `-r` or `--rawhttp` flag to enable use of the [rawhttp](https://
 library, which does little to no validation on the request:
 
 ```
-▶ meg --verbose --rawhttp /%%0a0afoo:bar
+▶ mega --verbose --rawhttp /%%0a0afoo:bar
 out/example.com/eac3a4978bfb95992e270c311582e6da4568d83d https://example.com/%%0a0afoo:bar (HTTP/1.1 404 Not Found)
 ```
 
@@ -233,7 +233,7 @@ If you only want to save results that returned a certain status code, you can
 use the `-s` or `--savestatus` option:
 
 ```
-▶ meg --savestatus 200 /robots.txt
+▶ mega --savestatus 200 /robots.txt
 ```
 
 ### Specifying The Method
@@ -241,7 +241,7 @@ use the `-s` or `--savestatus` option:
 You can specify which HTTP method to use with the `-X` or `--method` option:
 
 ```
-▶ meg --method TRACE
+▶ mega --method TRACE
 ▶ grep -nri 'TRACE' out/
 out/example.com/61ac5fbb9d3dd054006ae82630b045ba730d8618:3:> TRACE /robots.txt HTTP/1.1
 out/example.com/bd8d9f4c470ffa0e6ec8cfa8ba1c51d62289b6dd:3:> TRACE /.well-known/security.txt HTTP/1.1
