@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/sha1"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 )
@@ -82,7 +81,7 @@ func (r response) save(pathPrefix string, noHeaders bool) (string, error) {
 		}
 	}
 
-	err := ioutil.WriteFile(p, content, 0640)
+	err := os.WriteFile(p, content, 0640)
 	if err != nil {
 		return p, err
 	}
