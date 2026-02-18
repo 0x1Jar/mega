@@ -23,7 +23,7 @@ func (r request) Hostname() string {
 	u, err := url.Parse(r.host)
 
 	// the hostname part is used only for the rate
-	// limiting and the
+	// limiting and the output directory structure
 	if err != nil {
 		return "unknown"
 	}
