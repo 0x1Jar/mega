@@ -22,7 +22,10 @@ func (h headerArgs) String() string {
 type saveStatusArgs []int
 
 func (s *saveStatusArgs) Set(val string) error {
-	i, _ := strconv.Atoi(val)
+	i, err := strconv.Atoi(val)
+	if err != nil {
+		return fmt.Errorf("invalid status code: %s", val)
+	}
 	*s = append(*s, i)
 	return nil
 }
