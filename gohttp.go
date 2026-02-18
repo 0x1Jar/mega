@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"strings"
@@ -21,15 +21,16 @@ var transport = &http.Transport{
 	}).DialContext,
 }
 
-var httpClient = &http.Client{
-	Transport: transport,
-}
-
 func goRequest(r request) response {
-	httpClient.Timeout = r.timeout
+	// Create a new client per request to avoid race condition
+	// on shared state when running with concurrency > 1
+	client := &http.Client{
+		Transport: transport,
+		Timeout:   r.timeout,
+	}
 
 	if !r.followLocation {
-		httpClient.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+		client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
 			return http.ErrUseLastResponse
 		}
 	}
@@ -65,14 +66,14 @@ func goRequest(r request) response {
 		req.Header.Set(parts[0], parts[1])
 	}
 
-	resp, err := httpClient.Do(req)
+	resp, err := client.Do(req)
 	if resp != nil {
 		defer resp.Body.Close()
 	}
 	if err != nil {
 		return response{request: r, err: err}
 	}
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 
 	// extract the response headers
 	hs := make([]string, 0)
