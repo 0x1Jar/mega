@@ -1,26 +1,40 @@
-# meg
+# mega
 
 > **Note:** This is a modified fork of [tomnomnom/meg](https://github.com/tomnomnom/meg). All credit for the original tool goes to [@tomnomnom](https://github.com/tomnomnom).
 
-meg is a tool for fetching lots of URLs but still being 'nice' to servers.
+mega is a tool for fetching lots of URLs but still being 'nice' to servers.
 
 It can be used to fetch many paths for many hosts; fetching one path
 for all hosts before moving on to the next path and repeating.
 
-You get lots of results quickly, but non of the individual hosts get
+You get lots of results quickly, but none of the individual hosts get
 flooded with traffic.
 
 ## Install
 
-meg is written in Go and has no run-time dependencies. If you have Go 1.9
-or later installed and configured you can install meg with `go install`:
+mega is written in Go and has no run-time dependencies. If you have Go 1.18
+or later installed and configured you can install mega with `go install`:
 
 ```
 ▶ go install github.com/0x1Jar/mega@latest
 ```
 
+If you previously saw a module path conflict mentioning
+`github.com/tomnomnom/meg`, install `v0.3.1` or later:
+
+```
+▶ go install github.com/0x1Jar/mega@v0.3.1
+```
+
 Or [download a binary](https://github.com/0x1Jar/mega/releases) and
 put it somewhere in your `$PATH` (e.g. in `/usr/bin/`).
+
+If `mega` is installed but still shows `command not found`, add Go's bin path:
+
+```
+▶ echo 'export PATH="$PATH:$(go env GOPATH)/bin"' >> ~/.zshrc
+▶ source ~/.zshrc
+```
 
 ### Install Errors
 
@@ -169,11 +183,11 @@ Examples:
 
 ### Concurrency
 
-By default meg will attempt to make 20 concurrent requests. You can change that
+By default mega will attempt to make 20 concurrent requests. You can change that
 with the `-c` or `--concurrency` option:
 
 ```
-▶ meg --concurrency 5
+▶ mega --concurrency 5
 ```
 
 It's not very friendly to keep the concurrency level higher than the number of
@@ -181,11 +195,11 @@ hosts - you may end up sending lots of requests to one host at once.
 
 ### Delay
 
-By default meg will wait 5000 milliseconds between requests to the same host.
+By default mega will wait 5000 milliseconds between requests to the same host.
 You can override that with the `-d` or `--delay` option:
 
 ```
-▶ meg --delay 10000
+▶ mega --delay 10000
 ```
 
 **Warning:** before reducing the delay, ensure that you have permission to make
