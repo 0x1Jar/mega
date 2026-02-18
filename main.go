@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	userAgent = "Mozilla/5.0 (compatible; meg/0.2; +https://github.com/tomnomnom/meg)"
+	userAgent = "Mozilla/5.0 (compatible; meg/0.2; +https://github.com/0x1Jar/mega)"
 
 	// argument defaults
 	defaultPathsFile = "./paths"
@@ -55,6 +55,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "failed to open index file for writing: %s\n", err)
 		os.Exit(1)
 	}
+	defer index.Close()
 
 	// set up a rate limiter
 	rl := newRateLimiter(time.Duration(c.delay * 1000000))
