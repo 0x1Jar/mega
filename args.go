@@ -167,7 +167,7 @@ func init() {
 		h := "Request many paths for many hosts\n\n"
 
 		h += "Usage:\n"
-		h += "  meg [path|pathsFile] [hostsFile] [outputDir]\n\n"
+		h += "  mega [path|pathsFile] [hostsFile] [outputDir]\n\n"
 
 		h += "Options:\n"
 		h += "  -b, --body <val>           Set the request body\n"
@@ -197,8 +197,8 @@ func init() {
 		h += "  https://example.net\n\n"
 
 		h += "Examples:\n"
-		h += "  meg /robots.txt\n"
-		h += "  meg paths.txt hosts.txt output\n"
+		h += "  mega /robots.txt\n"
+		h += "  mega paths.txt hosts.txt output\n"
 
 		fmt.Fprintf(os.Stderr, h)
 	}
